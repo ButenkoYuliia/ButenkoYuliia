@@ -29,7 +29,7 @@ I'm especially interested in **healthcare data** — combining domain knowledge 
 ### 📊 Featured Projects
 | Project | Description | Tools |
 |---|---|---|
-| [Customer Segmentation](https://github.com/ButenkoYuliia/customer-segmentation) | RFM analysis & K-Means clustering of customers, email engagement dashboard | SQL, Python, Tableau |
+| | [Customer Segmentation](https://github.com/ButenkoYuliia/customer-segmentation) | K-Means segmentation of 2,781 customers by order value and email engagement | SQL, Python, Tableau |
 | [E-Commerce Sales Analysis]([https://github.com/ButenkoYuliia/customer-segmentation]) | Sales analysis of an e-commerce dataset | SQL, Python, Tableau |
 
 ### 🎓 Education

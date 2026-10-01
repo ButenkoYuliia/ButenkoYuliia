@@ -1,11 +1,6 @@
-## Hi there 👋
-
-<!--
-**ButenkoYuliia/ButenkoYuliia** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
-
 # Hi, I'm Yuliia 👋
 
-**Data Analyst** based in Germany, transitioning from clinical nursing and business management into data analytics.
+**Junior Data Analyst** based in Düsseldorf, Germany, with a background in clinical nursing and business management.
 I'm especially interested in **healthcare data** — combining domain knowledge from patient care with analytical skills.
 
 ### 🛠 Tools & Skills

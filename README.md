@@ -41,4 +41,5 @@ I'm especially interested in **healthcare data** — combining domain knowledge 
 Ukrainian (Native) · Russian (Native) · German (B2) · Spanish (B2) · English (B1)
 
 ### 📫 Contact
-   📧 butenkojjulia@gmail.com · [Tableau Public](https://public.tableau.com/app/profile/yuliia.butenko/vizzes)
+      ### 📫 Contact
+   📧 butenkojjulia@gmail.com · [LinkedIn](https://www.linkedin.com/in/julia-butenko-92701917a/) · [Tableau Public](https://public.tableau.com/app/profile/yuliia.butenko/vizzes)

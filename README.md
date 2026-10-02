@@ -37,7 +37,7 @@ I'm especially interested in **healthcare data** — combining domain knowledge 
 - Umschulung IT / Data Analytics — BBQ Düsseldorf (since 2026)
 
 ### 🌍 Languages
-  🇺🇦 Ukrainian — Native · 🇷🇺 Russian — Native · 🇩🇪 German — B2 · 🇪🇸 Spanish — B2 · 🇬🇧 English — B1
+    Ukrainian (Native) · Russian (Native) · German (B2) · Spanish (B2) · English (B1)
 
 ### 📫 Contact
-[Tableau Public](https://public.tableau.com/app/profile/https://public.tableau.com/app/profile/yuliia.butenko/vizzes  )
+   📧 butenkojjulia@gmail.com · [Tableau Public](https://public.tableau.com/app/profile/yuliia.butenko/vizzes)

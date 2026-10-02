@@ -31,6 +31,7 @@ I'm especially interested in **healthcare data** — combining domain knowledge 
 |---|---|---|
    | [Customer Segmentation](https://github.com/ButenkoYuliia/customer-segmentation) | K-Means segmentation of 2,781 customers by order value and email engagement | SQL, Python, Tableau |
    | [E-Commerce Sales Analysis](https://github.com/ButenkoYuliia/ecommerce-sales-analysis) | EDA and statistical testing of 349,545 sessions of an online furniture store | SQL, Python, Tableau |
+      | [Email Marketing Analysis](https://github.com/ButenkoYuliia/email-marketing-analysis) | Email metrics by country and over time with CTEs and window functions | SQL, Tableau |
 
 ### 🎓 Education
 - Data Analytics certification — Mate Academy (Python, SQL, Excel, Tableau)

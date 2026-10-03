@@ -15,6 +15,7 @@ I'm especially interested in **healthcare data** — combining domain knowledge 
 ![Jupyter](https://img.shields.io/badge/Jupyter-F37626?logo=jupyter&logoColor=white)
 ![Google Analytics](https://img.shields.io/badge/Google%20Analytics-E37400?logo=googleanalytics&logoColor=white)
 ![Git](https://img.shields.io/badge/Git-F05032?logo=git&logoColor=white)
+   
 
 | Area | Skills |
 |---|---|
@@ -25,6 +26,7 @@ I'm especially interested in **healthcare data** — combining domain knowledge 
 | **Statistics** | Sampling, Hypothesis Testing, Correlation, Statistical Significance |
 | **A/B Testing** | Planning, Analysis, Reporting |
 | **Other Tools** | Jupyter Notebooks, Google Analytics, Excel, Git |
+| **AI Tools** | Claude, Prompt Engineering, AI-assisted coding |
 
 ### 📊 Featured Projects
 | Project | Description | Tools |

@@ -259,25 +259,25 @@ def draw_world(t):
     arr = np.asarray(img).astype(np.float32) / 255.0
 
     # --- steam (additive, soft) ---
-    steam = np.zeros((H, W), np.float32)
+    steam = Image.new("L", (W, H), 0)
+    sd = ImageDraw.Draw(steam)
     for k in range(3):
-        for i in range(36):
-            s = ((i / 36) + per(t, 8)) % 1.0       # rises, loops 8x
+        pts = []
+        for i in range(37):
+            s = i / 36
             sy = 156 - s * 40
-            sx = mx0 + 8 + math.sin(TAU * (s * 1.3 + per(t, 2)) + k * 2.1) * (2 + s * 6)
-            a = (1 - s) * s * 4 * 0.10
-            ix, iy = int(sx), int(sy)
-            if 0 <= iy < H and 0 <= ix < W:
-                steam[max(0, iy - 1):iy + 2, max(0, ix - 1):ix + 2] += a
-    steam = Image.fromarray(np.clip(steam * 255 * 2.2, 0, 255).astype(np.uint8))
-    steam = np.asarray(steam.filter(ImageFilter.GaussianBlur(1.6))).astype(np.float32) / 255.0
+            # wisps sway and drift upward; periodic in the loop
+            sx = mx0 + 8 + math.sin(TAU * (s * 1.3 - per(t, 8)) + k * 2.1) * (1.5 + s * 6)
+            pts.append((sx, sy, (1 - s) * min(s * 6, 1) * (0.55 + 0.45 * math.sin(TAU * (s - per(t, 4)) + k))))
+        for (x1, y1, a1), (x2, y2, _) in zip(pts, pts[1:]):
+            sd.line([(x1, y1), (x2, y2)], fill=int(max(a1, 0) * 150), width=2)
+    steam = np.asarray(steam.filter(ImageFilter.GaussianBlur(1.1))).astype(np.float32) / 255.0
     arr += np.clip(steam, 0, 0.6)[..., None] * np.array([0.85, 0.85, 0.95])
 
     # --- lamp glow with tiny flicker (periodic) ---
     flick = 0.33 + 0.02 * math.sin(TAU * per(t, 16)) + 0.01 * math.sin(TAU * per(t, 37))
     arr += glow_base[..., None] * glow_col * flick
     arr *= vig
-    # gentle grain, regenerated per frame (seeded by frame → deterministic)
     return np.clip(arr, 0, 1)
 
 
@@ -295,42 +295,57 @@ SHOTS = [
 ]
 XFADE = 0.5
 
+# vertical 9:16 version: same shots, camera centres moved onto the subject
+SHOTS_V = [
+    (0, 8, (248, 135, 1.00), (248, 131, 1.06)),
+    (8, 16, (208, 128, 2.40), (214, 124, 2.55)),
+    (16, 24, (302, 150, 3.60), (302, 140, 3.80)),
+    (24, 32, (248, 131, 1.10), (248, 135, 1.00)),
+]
+FORMATS = {"16x9": (1920, 1080, SHOTS), "9x16": (1080, 1920, SHOTS_V)}
+SS = 2  # supersampling: sample 2x2 points per output pixel -> crisp, anti-aliased edges
 
-def cam_at(i, t):
-    s0, s1, a, b = SHOTS[i]
+
+def cam_at(shots, i, t):
+    s0, s1, a, b = shots[i]
     k = ease(min(max((t - s0) / (s1 - s0), 0), 1))
     return tuple(a[j] + (b[j] - a[j]) * k for j in range(3))
 
 
-def shoot(world, cam):
+def shoot(world, cam, ow, oh):
+    """Point-sample the pixel-art world (no bilinear blur), then box-downsample."""
     cx, cy, z = cam
-    cw, ch = W / z, H / z
+    ch = H / z
+    cw = ch * ow / oh
     x0 = min(max(cx - cw / 2, 0), W - cw)
     y0 = min(max(cy - ch / 2, 0), H - ch)
-    big = Image.fromarray((world * 255).astype(np.uint8)).resize((W * 4, H * 4), Image.NEAREST)
-    box = (x0 * 4, y0 * 4, (x0 + cw) * 4, (y0 + ch) * 4)
-    return np.asarray(big.resize((OUT_W, OUT_H), Image.BILINEAR, box=box)).astype(np.float32)
+    xs = np.minimum((x0 + (np.arange(ow * SS) + 0.5) * cw / (ow * SS)).astype(int), W - 1)
+    ys = np.minimum((y0 + (np.arange(oh * SS) + 0.5) * ch / (oh * SS)).astype(int), H - 1)
+    big = world[ys][:, xs]
+    return big.reshape(oh, SS, ow, SS, 3).mean(axis=(1, 3)) * 255.0
 
 
-def frame(fi):
+def frame(fi, fmt="16x9"):
+    ow, oh, shots = FORMATS[fmt]
     t = fi / FPS
     world = draw_world(t)
-    idx = next(i for i, s in enumerate(SHOTS) if s[0] <= t < s[1])
-    out = shoot(world, cam_at(idx, t))
+    idx = next(i for i, s in enumerate(shots) if s[0] <= t < s[1])
+    out = shoot(world, cam_at(shots, idx, t), ow, oh)
     # crossfade into next shot during the last XFADE seconds of each shot
-    s1 = SHOTS[idx][1]
-    if t > s1 - XFADE and idx + 1 < len(SHOTS):
+    s1 = shots[idx][1]
+    if t > s1 - XFADE and idx + 1 < len(shots):
         k = (t - (s1 - XFADE)) / XFADE
-        nxt = shoot(world, cam_at(idx + 1, SHOTS[idx + 1][0]))
+        nxt = shoot(world, cam_at(shots, idx + 1, shots[idx + 1][0]), ow, oh)
         out = out * (1 - k) + nxt * k
-    # film grain: 6 patterns that cycle (cheap to encode, still alive)
-    g = np.random.default_rng(fi // 4 % 6).normal(0, 2.5, (OUT_H // 4, OUT_W // 4, 1))
-    out += np.kron(g, np.ones((4, 4, 1)))
+    # light film grain: 6 patterns that cycle (cheap to encode, keeps detail clean)
+    g = np.random.default_rng(fi // 4 % 6).normal(0, 1.2, (oh // 2, ow // 2, 1))
+    out += np.kron(g, np.ones((2, 2, 1)))
     img = Image.fromarray(np.clip(out, 0, 255).astype(np.uint8))
     if idx in (0, 3):
         d = ImageDraw.Draw(img)
-        f = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf", 30)
-        d.text((60, OUT_H - 90), "lofi · rain & purr", fill=(235, 220, 200), font=f)
+        f = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf", 30 if fmt == "16x9" else 40)
+        pos = (60, oh - 90) if fmt == "16x9" else (60, oh - 160)
+        d.text(pos, "lofi · rain & purr", fill=(235, 220, 200), font=f)
     return img
 
 
@@ -338,5 +353,6 @@ if __name__ == "__main__":
     out_dir = sys.argv[1]
     os.makedirs(out_dir, exist_ok=True)
     a, b = int(sys.argv[2]), int(sys.argv[3])
+    fmt = sys.argv[4] if len(sys.argv) > 4 else "16x9"
     for fi in range(a, min(b, N_FRAMES)):
-        frame(fi).save(os.path.join(out_dir, f"f{fi:04d}.png"), compress_level=1)
+        frame(fi, fmt).save(os.path.join(out_dir, f"f{fi:04d}.png"), compress_level=1)

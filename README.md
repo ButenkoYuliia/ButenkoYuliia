@@ -31,6 +31,7 @@ I'm especially interested in **healthcare data** — combining domain knowledge 
 ### 📊 Featured Projects
 | Project | Description | Tools |
 |---|---|---|
+   | [Where Are GPs Missing in NRW?](https://github.com/ButenkoYuliia/nrw-healthcare-supply) | GP, specialist and hospital-bed supply in 53 NRW districts: risk zones, urban vs rural tests, Tableau map | SQL, Python, Tableau |
    | [Diabetes Readmission Analysis](https://github.com/ButenkoYuliia/diabetes-readmission-analysis) | 30-day readmission risk for 99,340 hospital encounters: risk factors and a logistic regression model | SQL, Python, Tableau |
    | [A/B Test Significance](https://github.com/ButenkoYuliia/ab-test-significance) | Two-proportion z-tests for 4 A/B tests across 1,968 metric/segment checks, with a two-page Tableau dashboard | SQL, Python, Tableau |
    | [Customer Segmentation](https://github.com/ButenkoYuliia/customer-segmentation) | K-Means segmentation of 2,781 customers by order value and email engagement | SQL, Python, Tableau |

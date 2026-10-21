@@ -31,10 +31,12 @@ I'm especially interested in **healthcare data** — combining domain knowledge 
 ### 📊 Featured Projects
 | Project | Description | Tools |
 |---|---|---|
+   | [A/B Test Significance](https://github.com/ButenkoYuliia/ab-test-significance) | Two-proportion z-tests for 4 A/B tests across 1,968 metric/segment checks, with a two-page Tableau dashboard | SQL, Python, Tableau |
    | [Customer Segmentation](https://github.com/ButenkoYuliia/customer-segmentation) | K-Means segmentation of 2,781 customers by order value and email engagement | SQL, Python, Tableau |
    | [E-Commerce Sales Analysis](https://github.com/ButenkoYuliia/ecommerce-sales-analysis) | EDA and statistical testing of 349,545 sessions of an online furniture store | SQL, Python, Tableau |
    | [Email Marketing Analysis](https://github.com/ButenkoYuliia/email-marketing-analysis) | Email metrics by country and over time with CTEs and window functions | SQL, Tableau |
    | [Sales Performance Analysis](https://github.com/ButenkoYuliia/sales-performance-analysis) | Data cleaning and EDA of 1,246 orders in 45 countries with business recommendations | Python |
+
 ### 🎓 Education
 - Data Analytics certification — Mate Academy (Python, SQL, Excel, Tableau)
 - Umschulung IT / Data Analytics — BBQ Düsseldorf (since 2026)
@@ -43,5 +45,4 @@ I'm especially interested in **healthcare data** — combining domain knowledge 
 Ukrainian (Native) · Russian (Native) · German (B2) · Spanish (B2) · English (B1)
 
 ### 📫 Contact
-      ### 📫 Contact
    📧 butenkojjulia@gmail.com · [LinkedIn](https://www.linkedin.com/in/julia-butenko-92701917a/) · [Tableau Public](https://public.tableau.com/app/profile/yuliia.butenko/vizzes)
